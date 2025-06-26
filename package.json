@@ -1,0 +1,108 @@
+{
+  "name": "ai-chat-assistant",
+  "displayName": "AI Chat Assistant",
+  "description": "AI-powered chat assistant for VS Code with file attachment and code generation capabilities",
+  "version": "1.0.0",
+  "publisher": "ai-tools",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning",
+    "Snippets"
+  ],
+  "activationEvents": [
+    "onCommand:aiChatAssistant.openChat"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "aiChatAssistant.openChat",
+        "title": "Open AI Chat",
+        "icon": "$(comment-discussion)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ai-chat-assistant",
+          "title": "AI Chat Assistant",
+          "icon": "$(comment-discussion)"
+        }
+      ]
+    },
+    "views": {
+      "ai-chat-assistant": [
+        {
+          "type": "webview",
+          "id": "aiChatAssistant.chatView",
+          "name": "Chat",
+          "when": "aiChatAssistant.chatViewEnabled"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "AI Chat Assistant",
+      "properties": {
+        "aiChatAssistant.openaiApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "OpenAI API Key for AI chat functionality",
+          "scope": "application"
+        },
+        "aiChatAssistant.model": {
+          "type": "string",
+          "default": "gpt-4",
+          "enum": [
+            "gpt-4",
+            "gpt-4-turbo",
+            "gpt-3.5-turbo"
+          ],
+          "description": "OpenAI model to use for chat"
+        },
+        "aiChatAssistant.maxTokens": {
+          "type": "number",
+          "default": 2048,
+          "description": "Maximum tokens for AI responses"
+        }
+      }
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "cross-env NODE_NO_WARNINGS=1 tsc -p ./",
+    "watch": "cross-env NODE_NO_WARNINGS=1 tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test",
+    "build:webview": "cross-env NODE_NO_WARNINGS=1 vite build",
+    "dev:webview": "cross-env NODE_NO_WARNINGS=1 vite build --watch"
+  },
+  "devDependencies": {
+    "@types/node": "^18.x",
+    "@types/vscode": "^1.74.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@vscode/test-cli": "^0.0.4",
+    "@vscode/test-electron": "^2.3.4",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.47.0",
+    "typescript": "^5.1.6",
+    "vite": "^5.4.2"
+  },
+  "dependencies": {
+    "highlight.js": "^11.9.0",
+    "lucide-react": "^0.344.0",
+    "marked": "^9.1.2",
+    "openai": "^4.20.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "overrides": {
+    "whatwg-url": "^14.0.0"
+  }
+}
